@@ -74,8 +74,8 @@ function extractOperatorAndOperands(expression) {
 
 
   // Extraction des opérandes et de l'opérateur
-  // const operands = expression.match(/(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)/);
-  const operands = expression.match(/(-?\d+)([+\-*/])*(-?\d+)*/);
+  const operands = expression.match(/(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)/);
+  // const operands = expression.match(/(-?\d+)([+\-*/])*(-?\d+)*/);
   // const operands = expression.match(/(-?\d*)*([+\-*/])*(-?\d*)*/);
 
 console.log(operands);
@@ -85,10 +85,10 @@ console.log(operands);
 
   // Convert operands to numbers (handle potential errors)
   let operand1, operand2, operator;
-  operator = operands[2]
+  operator = operands[3]
   try {
     operand1 = Number(operands[1]);
-    operand2 = Number(operands[3]);
+    operand2 = Number(operands[4]);
   } catch (error) {
     displayError("Invalid number format.");
     return;
