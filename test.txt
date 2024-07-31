@@ -1,0 +1,174 @@
+const calc = document.querySelector(".calc");
+const calculation = document.querySelector(".calc__calculation");
+const result = document.querySelector(".calc__result");
+const buttons = [...document.querySelectorAll(".calc__button")];
+
+const clearBtn = document.querySelector("[data-action='ce']");
+clearBtn.addEventListener("click", clear);
+
+function clear() {
+  if (calculation.textContent[0] === "0") return;
+  else if (calculation.textContent.length === 1) newValue = "0";
+  else newValue = calculation.textContent.slice(0, -1);
+
+  calculation.textContent = newValue;
+}
+
+const resetBtn = document.querySelector("[data-action='c']");
+resetBtn.addEventListener("click", reset);
+
+function reset() {
+  calculation.textContent = "0";
+  result.textContent = "";
+}
+
+const digitsBtns = buttons.filter((button) =>
+  /[0-9]/.test(button.getAttribute("data-action"))
+);
+digitsBtns.forEach((digitBtn) => {
+  digitBtn.addEventListener("click", handleDigit);
+});
+
+function handleDigit(e) {
+  const btnValue = e.target.getAttribute("data-action");
+  console.log(btnValue);
+  if(/[\/+*]/.test(btnValue)&& calculation.textContent === "0") return;
+  else if (btnValue === "0" && calculation.textContent === "0")
+    calculation.textContent = "0";
+  else if (btnValue !== "0" && calculation.textContent === "0")
+    calculation.textContent = btnValue;
+  else calculation.textContent += btnValue;
+}
+
+const operatorsBtns = buttons.filter((button) =>
+  /[\/*+-]/.test(button.getAttribute("data-action"))
+);
+operatorsBtns.forEach((btn) => btn.addEventListener("click", handleOperators));
+
+function handleOperators(e) {
+  const btnValue = e.target.getAttribute("data-action");
+  if (/[\/*+-]/.test(calculation.textContent.slice(-1)))
+    calculation.textContent = calculation.textContent.slice(0, -1) + btnValue;
+  else calculation.textContent += btnValue;
+}
+console.log(digitsBtns, operatorsBtns);
+
+function extraireOperateurEtOperandes(expression) {
+  // Check for trailing operator (calculation not finished)
+  if (/[\/+*-.]/.test(expression.slice(-1))) {
+    let errorMsg = "Terminez le calcul par un chiffre.";
+    calculation.textContent = errorMsg;
+    setTimeout(() => {
+      calculation.textContent = "0";
+      result.textContent = "";
+    }, 2500);
+    return;
+  }
+
+  // Find the operator using a regular expression
+  const operateurRegex = /[+\-*/]/;
+  const operateur = expression.match(operateurRegex);
+
+  // Ensure an operator is found
+  if (!operateur) {
+    let errorMsg = "L'expression ne contient pas d'opérateur.";
+    calculation.textContent = errorMsg;
+    setTimeout(() => {
+      calculation.textContent = "0";
+      result.textContent = "";
+    }, 2500);
+    return;
+  }
+
+  // Separate the operands using the operator
+  const operandes = expression.split(operateur);
+
+  // Convert operands to numbers (handle potential errors)
+  let operande1, operande2;
+  try {
+    operande1 = parseFloat(operandes[0]);
+    operande2 = parseFloat(operandes[1]);
+  } catch (error) {
+    let errorMsg = "Erreur : format de nombre invalide.";
+    result.textContent = errorMsg;
+    setTimeout(() => {
+      result.textContent = "";
+    }, 2500);
+    return;
+  }
+
+  return {
+    operande1,
+    operande2,
+    operateur: operateur[0],
+  };
+}
+
+
+const equalBtn = document.querySelector("[data-action='=']");
+equalBtn.addEventListener("click", showResult);
+
+function showResult() {
+  const calculationData = extraireOperateurEtOperandes(calculation.textContent);
+  if (!calculationData) return;
+
+  const resultat = calculer(
+    calculationData.operande1,
+    calculationData.operande2,
+    calculationData.operateur
+  );
+
+  // Inverser les contenus
+  result.textContent = calculation.textContent;
+  calculation.textContent = resultat;
+}
+
+function calculer(operande1, operande2, operateur) {
+  let resultat;
+
+  switch (operateur) {
+    case "+":
+      resultat = operande1 + operande2;
+      break;
+    case "-":
+      resultat = operande1 - operande2;
+      break;
+    case "*":
+      resultat = operande1 * operande2;
+      break;
+    case "/":
+      if (operande2 !== 0) {
+        resultat = operande1 / operande2;
+      } else {
+        calculation.textContent = "Erreur : division par zéro";
+        setTimeout(() => {
+          result.textContent = "";
+          calculation.textContent = "0";
+        }, 2000);
+      }
+      break;
+  }
+
+  return resultat;
+}
+
+const decimalBtn = document.querySelector("[data-action='.']");
+
+decimalBtn.addEventListener("click", handleDecimal);
+
+function handleDecimal() {
+  if (!calculation.textContent) return;
+
+  let lastSetofNumbers = "";
+  for (let i = calculation.textContent.length; i > 0; i--) {
+    if (/[\/+*-]/.test(calculation.textContent[i])) {
+      break;
+    } else {
+      lastSetofNumbers += calculation.textContent[i];
+    }
+  }
+
+  if (!lastSetofNumbers.includes(".")) {
+    calculation.textContent += ".";
+  }
+}
