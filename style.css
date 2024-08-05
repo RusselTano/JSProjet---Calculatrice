@@ -34,7 +34,8 @@ body {
 .calc__ecran {
   border-radius: 20px;
   padding-top: 75px;
-  padding-right: 20px;height: 120px;
+  padding-right: 20px;
+  height: 120px;
   background-color: #f1f1f1;
   width: 100%;
   text-align: right;
@@ -43,16 +44,20 @@ body {
   border: 2px solid #808080;
   box-shadow: inset 2px 2px 10px 2px rgba(0, 0, 0, 0.8);
   position: relative;
+  overflow-x: scroll;
 }
+
 .calc__calculation {
   font-family: Roboto, sans-serif;
 }
+
 .calc__buttons {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  grid-template-rows: repeat(5,auto);
+  grid-template-rows: repeat(5, auto);
   gap: 20px;
 }
+
 .calc__button {
   background-color: var(--primary-color);
   box-shadow: 0px -3px 3px 0px rgba(255, 255, 255, 0.151), 0px 3px 3px 0px rgba(0, 0, 0, 0.5);
@@ -65,13 +70,13 @@ body {
   font-family: Open sans, sans-serif;
   font-size: 22px;
   font-weight: 100;
-
 }
 
-.calc__button:first-child{
+.calc__button:first-child {
   grid-column: 1/3;
 }
-.calc__button:last-child{
+
+.calc__button:last-child {
   grid-column: 3/-1;
   background-color: var(--secondary-color);
   color: black;
@@ -82,7 +87,7 @@ body {
   top: 20px;
   right: 15px;
   color: rgb(171, 171, 171);
-font-weight: lighter;
-font-size: 20px;
-font-family: Open sans, sans-serif;
+  font-weight: lighter;
+  font-size: 20px;
+  font-family: Open sans, sans-serif;
 }

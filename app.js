@@ -28,7 +28,7 @@ const digitButtons = buttons.filter((button) =>
 digitButtons.forEach((button) => button.addEventListener("click", handleDigit));
 
 function handleDigit(event) {
-  if(isShowResult == true) {
+  if (isShowResult == true) {
     resetCalculator();
   }
   isShowResult = false;
@@ -48,7 +48,7 @@ operatorButtons.forEach((button) =>
 );
 
 function handleOperator(e) {
-  if(isShowResult == true) {
+  if (isShowResult == true) {
     resetCalculator();
   }
   isShowResult = false;
@@ -68,24 +68,16 @@ function extractOperatorAndOperands(expression) {
     displayError("Please complete the calculation with a number.");
     return;
   }
-
-  // Find the operator using a regular expression
-
-
-
   // Extraction des opérandes et de l'opérateur
   const operands = expression.match(/(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)/);
   // const operands = expression.match(/(-?\d+)([+\-*/])*(-?\d+)*/);
   // const operands = expression.match(/(-?\d*)*([+\-*/])*(-?\d*)*/);
 
-console.log(operands);
-
-
-  // Les groupes capturés correspondent aux opérandes
+  console.log(operands);
 
   // Convert operands to numbers (handle potential errors)
   let operand1, operand2, operator;
-  operator = operands[3]
+  operator = operands[3];
   try {
     operand1 = Number(operands[1]);
     operand2 = Number(operands[4]);
@@ -93,14 +85,7 @@ console.log(operands);
     displayError("Invalid number format.");
     return;
   }
-  // Ensure an operator is found
-  if(!operand2 || !operator){
-    return operand1
-  }
-  // if (!operator) {
-  //   displayError("Expression must contain an operator.");
-  //   return;
-  // }
+
   return {
     operand1,
     operand2,
@@ -113,7 +98,7 @@ equalsButton.addEventListener("click", showResult);
 
 function showResult() {
   const calculationData = extractOperatorAndOperands(display.textContent);
-  
+
   const result = calculate(
     calculationData.operand1,
     calculationData.operand2,
@@ -124,13 +109,13 @@ function showResult() {
   resultDisplay.textContent = display.textContent;
   display.textContent = result;
 
-  if(!result) {
+  if (!result) {
     display.textContent = resultDisplay.textContent;
   }
-  if(result == 0){
-    display.textContent = result;  
+  if (result == "0") {
+    display.textContent = result;
   }
-console.log(result);
+  console.log(result);
   isShowResult = true;
 }
 
