@@ -72,10 +72,6 @@ function extractOperatorAndOperands(expression) {
   const operands = expression.match(/(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)/);
   // const operands = expression.match(/(-?\d+)([+\-*/])*(-?\d+)*/);
   // const operands = expression.match(/(-?\d*)*([+\-*/])*(-?\d*)*/);
-
-  console.log(operands);
-
-  // Convert operands to numbers (handle potential errors)
   let operand1, operand2, operator;
   operator = operands[3];
   try {
@@ -105,7 +101,6 @@ function showResult() {
     calculationData.operator
   );
 
-  // Swap display content (result to display, calculation to result display)
   resultDisplay.textContent = display.textContent;
   display.textContent = result;
 
