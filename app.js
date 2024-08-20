@@ -4,7 +4,7 @@ const resultDisplay = document.querySelector(".calc__result"); // Result display
 const buttons = [...document.querySelectorAll(".calc__button")]; // All buttons
 
 let isShowResult = false;
-// Button event listeners
+
 const clearButton = document.querySelector("[data-action='ce']");
 clearButton.addEventListener("click", clearDisplay);
 
