@@ -33,7 +33,6 @@ function handleDigit(event) {
   }
   isShowResult = false;
   const buttonValue = event.target.getAttribute("data-action");
-  // Prevent leading zero unless current display is zero
   if (buttonValue === "0" && display.textContent === "0") return;
   else if (buttonValue !== "0" && display.textContent === "0")
     display.textContent = buttonValue;
