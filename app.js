@@ -62,7 +62,6 @@ function handleOperator(e) {
 }
 
 function extractOperatorAndOperands(expression) {
-  // Check for trailing operator (unfinished calculation)
   if (/[\/+*-.]/.test(expression.slice(-1))) {
     displayError("Please complete the calculation with a number.");
     return;
